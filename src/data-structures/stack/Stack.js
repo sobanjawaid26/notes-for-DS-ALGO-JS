@@ -7,7 +7,7 @@
 
 // pop - removes the node at the top of the stack and returns the value of that node.
 
-const StackNode = require('./StackNode');
+const StackNode = require('./Stack-node');
 
 class Stack {
   constructor() {
@@ -16,11 +16,40 @@ class Stack {
     this.size = 0;
   }
 
-  push(value){
-    if()
+  push(data) {
+    this.first = new StackNode(data, this.first);
+
+    if (!this.size) this.last = this.first;
+    this.size++;
+
+    return this.size;
   }
 
-  pop(){
+  pop() {
+    if (!this.first) return null;
 
+    const removedNode = this.first;
+    this.first = removedNode.next;
+    this.size--;
+
+    if (!this.size) this.last = null;
+
+    return removedNode.data;
   }
+}
+
+if (module.parent) {
+  module.exports = Stack;
+} else {
+  const stack = new Stack();
+
+  stack.push(10);
+  stack.push(100);
+  stack.push(1000);
+  console.log(stack.pop()); // 1000
+  console.log(stack.size); // 2
+  stack.pop();
+  stack.pop();
+  console.log(stack.size); // 0
+  console.log(stack.pop()); // null
 }
